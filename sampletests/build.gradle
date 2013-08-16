@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'alfresco-dynamic-extension'
+
+dependencies {
+    compile project(':testrunner')
+}
+
+jar {
+    manifest {
+        instruction 'Bundle-Description', 'Integration testrunner sample'
+        instruction 'Alfresco-Spring-Configuration', 'org.dynamicextensions.testrunner.sample'
+        instruction 'Testrunner-Target', 'dynamic-extensions.testrunner'
+        instruction 'Testrunner-Packages', 'org.dynamicextensions.testrunner.sampletests'
+    }
+}
+
+installBundle {
+    toRepository(username: username ?: 'admin', password: password ?: 'admin')
+}
+
