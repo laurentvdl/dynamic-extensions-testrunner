@@ -29,6 +29,7 @@ public class SelfTestComponent {
 instruction 'Testrunner-Target', 'dynamic-extensions.testrunner'
 instruction 'Testrunner-Packages', 'org.dynamicextensions.testrunner.sampletests'
 ```
+
 and your test class will be injected into the target-bundle's Spring context:
 ```java
 @RunWith(TestRunner.class)
