@@ -1,4 +1,4 @@
-package org.dynamicextensions.testrunner;
+package com.github.dynamicextensionsalfresco.testrunner;
 
 /**
  * @author Laurent Van der Linden

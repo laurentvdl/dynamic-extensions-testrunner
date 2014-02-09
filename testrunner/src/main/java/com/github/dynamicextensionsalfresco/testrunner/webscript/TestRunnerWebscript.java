@@ -1,10 +1,10 @@
-package org.dynamicextensions.testrunner.webscript;
+package com.github.dynamicextensionsalfresco.testrunner.webscript;
 
-import nl.runnable.alfresco.webscripts.annotations.HttpMethod;
-import nl.runnable.alfresco.webscripts.annotations.Uri;
-import nl.runnable.alfresco.webscripts.annotations.WebScript;
-import org.dynamicextensions.testrunner.BundleTest;
-import org.dynamicextensions.testrunner.TestScanner;
+import com.github.dynamicextensionsalfresco.testrunner.BundleTest;
+import com.github.dynamicextensionsalfresco.testrunner.TestScanner;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.HttpMethod;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.Uri;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.WebScript;
 import org.eclipse.gemini.blueprint.context.BundleContextAware;
 import org.json.JSONObject;
 import org.json.JSONWriter;

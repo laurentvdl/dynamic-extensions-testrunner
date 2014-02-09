@@ -8,34 +8,23 @@ subprojects {
     
     [compileJava, compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
 
-    repositories {
-        mavenCentral()
-        maven {
-            url "https://artifacts.alfresco.com/nexus/content/groups/public/"
-        }
-        maven {
-            url "https://raw.github.com/lfridael/dynamic-extensions-for-alfresco/mvn-repo/"
-        }
+    compileJava {
+        sourceCompatibility = 1.6
+        targetCompatibility = 1.6
     }
 
     buildscript {
         repositories {
             maven {
-                url 'https://raw.github.com/lfridael/dynamic-extensions-for-alfresco/mvn-repo/'
+                url 'https://raw.github.com/laurentvdl/dynamic-extensions-for-alfresco/mvn-repo/'
             }
         }
         dependencies {
-            classpath group: 'nl.runnable.alfresco.dynamicextensions', name: 'gradle-plugin', version: '1.0.0.M5-SNAPSHOT'
+            classpath group: 'com.github.dynamicextensionsalfresco', name: 'gradle-plugin', version: '1.0.0-SNAPSHOT'
         }
     }
 
     group = 'dynamic-extensions'
     version = '1.0'
-    
-    project.ext.sourceCompatibility = JavaVersion.VERSION_1_6
-    project.ext.targetCompatibility = JavaVersion.VERSION_1_6
-    project.ext.javaVersion = JavaVersion.VERSION_1_6
-
-    project.ext.dynamicExtensionsVersion = '1.0.0.M5-SNAPSHOT';
 }
 

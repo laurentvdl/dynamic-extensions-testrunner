@@ -1,10 +1,8 @@
-package org.dynamicextensions.testrunner;
+package com.github.dynamicextensionsalfresco.testrunner;
 
-import org.dynamicextensions.testrunner.osgi.ExportOsgiService;
-import org.dynamicextensions.testrunner.util.ContextUtils;
-import org.osgi.framework.BundleContext;
+import com.github.dynamicextensionsalfresco.osgi.OsgiService;
+import com.github.dynamicextensionsalfresco.testrunner.util.ContextUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -13,15 +11,14 @@ import org.springframework.stereotype.Component;
  *
  * @author Laurent Van der Linden
  */
-@Component @ExportOsgiService(interfaces = ServiceResolver.class, headers = {})
-public class ServiceResolver implements InitializingBean {
-  @Autowired
-  private BundleContext bundleContext;
-
+@Component @OsgiService(interfaces = ServiceResolver.class)
+public class DefaultServiceResolver implements InitializingBean, ServiceResolver {
+  @Override
   public <T> T getService(String extensionName, Class<T> serviceType) {
     return getService(extensionName, serviceType, null);
   }
 
+  @Override
   public <T> T getService(String bundleName, Class<T> requiredType, String beanName) {
     final ApplicationContext applicationContext = getApplicationContext(bundleName);
     if (applicationContext != null) {
@@ -34,6 +31,7 @@ public class ServiceResolver implements InitializingBean {
     return null;
   }
 
+  @Override
   public ApplicationContext getApplicationContext(String bundleName) {
     return ContextUtils.findApplicationContext(bundleName);
   }

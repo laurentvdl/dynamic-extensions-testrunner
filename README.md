@@ -1,14 +1,13 @@
 Dynamic Extensions TestRunner
 =============================
 
-The <a href="http://github.com/lfridael/dynamic-extensions-for-alfresco">Dynamic extensions</a> project enables rapid
+The <a href="http://github.com/laurentvdl/dynamic-extensions-for-alfresco">Dynamic extensions</a> project enables rapid
 development of Alfresco extensions.
 
 This opens the possibility to hot deploy integration tests as well as separate extensions/bundles.
 
 Tests are run manually from a webscript: <a href="http://localhost:8080/alfresco/service/testrunner/">testrunner</a>.
 
-This extension enables 2 ways of accessing dependencies from integration tests:
 * write your test as a Spring component and inject the `ServiceResolver` explicitly to fetch the service you want to test:
 ```java
 @Component
@@ -24,32 +23,18 @@ public class SelfTestComponent {
   }
 }
 ```
-* or specify a target-bundle bundle in your test-bundle manifest:
-```groovy
-instruction 'Testrunner-Target', 'dynamic-extensions.testrunner'
-instruction 'Testrunner-Packages', 'org.dynamicextensions.testrunner.sampletests'
-```
 
-and your test class will be injected into the target-bundle's Spring context:
+Alternatively, if your test target is an Osgi service:
 ```java
-@RunWith(TestRunner.class)
-public class SelfTest {
-  @Autowired
-  private TestRunnerWebscript testRunnerWebscript;
-
-  @Test
-  public void testAutowiring() {
-    Assert.assertNotNull("test dependency not injected", testRunnerWebscript);
-  }
-}
-
+@OsgiService
+public class DefaultCustomService implements CustomService { ... }
 ```
+then you can @Autowired that service from your tests.
 
-This allows for autowiring target-bundle services into your test, but is more of a hack.
+Notes
+=====
+* the TestRunner-Target approach was removed as it was too obtrusive
 
-Improvements
-============
-
-* if dynamic-extensions would allow for bundle contexts to become child contexts of another bundle, the autowiring of tests
- would become more elegant
+TODO
+====
 * integrate test execution as a gradle task

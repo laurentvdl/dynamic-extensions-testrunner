@@ -1,6 +1,7 @@
-package org.dynamicextensions.testrunner.webscript;
+package com.github.dynamicextensionsalfresco.testrunner.webscript;
 
-import nl.runnable.alfresco.webscripts.annotations.*;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.*;
+import com.github.dynamicextensionsalfresco.webscripts.support.AbstractBundleResourceHandler;
 import org.springframework.extensions.webscripts.WebScriptResponse;
 import org.springframework.stereotype.Component;
 
