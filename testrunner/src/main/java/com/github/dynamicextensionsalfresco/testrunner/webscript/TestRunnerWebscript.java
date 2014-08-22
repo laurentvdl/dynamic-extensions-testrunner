@@ -2,9 +2,7 @@ package com.github.dynamicextensionsalfresco.testrunner.webscript;
 
 import com.github.dynamicextensionsalfresco.testrunner.BundleTest;
 import com.github.dynamicextensionsalfresco.testrunner.TestScanner;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.HttpMethod;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.Uri;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.WebScript;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.*;
 import org.eclipse.gemini.blueprint.context.BundleContextAware;
 import org.json.JSONObject;
 import org.json.JSONWriter;
@@ -33,6 +31,7 @@ import java.util.Set;
  */
 @Component
 @WebScript
+@Transaction(TransactionType.NONE)
 public class TestRunnerWebscript implements BundleContextAware {
   private final static Logger logger = LoggerFactory.getLogger(TestRunnerWebscript.class);
 
