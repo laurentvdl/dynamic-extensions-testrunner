@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath group: 'com.github.dynamicextensionsalfresco', name: 'gradle-plugin', version: '1.1.+'
+    }
+}
+
 allprojects {
     apply plugin: 'idea'
     apply plugin: 'eclipse'
@@ -11,17 +20,6 @@ subprojects {
     compileJava {
         sourceCompatibility = 1.6
         targetCompatibility = 1.6
-    }
-
-    buildscript {
-        repositories {
-            maven {
-                url 'https://raw.github.com/laurentvdl/dynamic-extensions-for-alfresco/mvn-repo/'
-            }
-        }
-        dependencies {
-            classpath group: 'com.github.dynamicextensionsalfresco', name: 'gradle-plugin', version: '1.0.0'
-        }
     }
 
     group = 'dynamic-extensions'

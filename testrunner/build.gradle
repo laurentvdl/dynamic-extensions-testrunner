@@ -22,8 +22,3 @@ jar {
         instruction 'Bundle-Description', 'Integration testrunner extension'
     }
 }
-
-installBundle {
-    toRepository(username: username ?: 'admin', password: password ?: 'admin')
-}
-

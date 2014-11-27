@@ -11,7 +11,3 @@ jar {
     }
 }
 
-installBundle {
-    toRepository(username: username ?: 'admin', password: password ?: 'admin')
-}
-

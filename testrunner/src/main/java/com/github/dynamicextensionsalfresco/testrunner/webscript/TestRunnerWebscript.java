@@ -2,7 +2,11 @@ package com.github.dynamicextensionsalfresco.testrunner.webscript;
 
 import com.github.dynamicextensionsalfresco.testrunner.BundleTest;
 import com.github.dynamicextensionsalfresco.testrunner.TestScanner;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.*;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.HttpMethod;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.Transaction;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.TransactionType;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.Uri;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.WebScript;
 import org.eclipse.gemini.blueprint.context.BundleContextAware;
 import org.json.JSONObject;
 import org.json.JSONWriter;
@@ -110,7 +114,7 @@ public class TestRunnerWebscript implements BundleContextAware {
 
       @Override
       public void testFailure(Failure failure) throws Exception {
-        logger.info("testFailure(" + failure + ")");
+        logger.error("testFailure(" + failure + ")", failure.getException());
         jr.object()
             .key("message").value(failure.getMessage())
             .key("trace").value(failure.getTrace())
