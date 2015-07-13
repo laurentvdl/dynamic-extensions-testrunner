@@ -2,11 +2,8 @@ package com.github.dynamicextensionsalfresco.testrunner.webscript;
 
 import com.github.dynamicextensionsalfresco.testrunner.BundleTest;
 import com.github.dynamicextensionsalfresco.testrunner.TestScanner;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.HttpMethod;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.Transaction;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.TransactionType;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.Uri;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.WebScript;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.*;
+import com.google.common.collect.ImmutableMap;
 import org.eclipse.gemini.blueprint.context.BundleContextAware;
 import org.json.JSONObject;
 import org.json.JSONWriter;
@@ -24,7 +21,6 @@ import org.springframework.extensions.webscripts.WebScriptRequest;
 import org.springframework.extensions.webscripts.WebScriptResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,21 +30,25 @@ import java.util.Set;
  * @author Laurent Van der Linden
  */
 @Component
-@WebScript
+@WebScript(families = "testrunner", defaultFormat = "json")
 @Transaction(TransactionType.NONE)
 public class TestRunnerWebscript implements BundleContextAware {
   private final static Logger logger = LoggerFactory.getLogger(TestRunnerWebscript.class);
 
   @Autowired
-  private TestScanner testFinder;
+  TestScanner testFinder;
+
   private BundleContext bundleContext;
 
   @Uri(value = "/testrunner/", defaultFormat = "html")
-  public Map<String,Object> index() {
-    return new HashMap<String, Object>();
+  public Map<String,Object> index(WebScriptResponse response) {
+    // force IE to Edge mode
+    response.setHeader("X-UA-Compatible", "edge");
+
+    return ImmutableMap.<String,Object>of("version", bundleContext.getBundle().getHeaders().get("Bnd-LastModified"));
   }
 
-  @Uri(value = "/testrunner/tests", defaultFormat = "json")
+  @Uri(value = "/testrunner/tests")
   public void listTests(final WebScriptResponse response) throws Exception {
     final JSONWriter json = new JSONWriter(response.getWriter());
     json.array();

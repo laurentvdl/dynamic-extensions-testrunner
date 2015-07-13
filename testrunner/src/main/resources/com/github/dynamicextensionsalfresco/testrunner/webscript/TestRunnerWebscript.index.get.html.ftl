@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="testrunner">
 <head>
-	<#assign resources = url.serviceContext + "/testrunner/resources">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<#assign resources = url.serviceContext + "/com-github-dynamicextensionsalfresco-testrunner/web-cached/" + version!"1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Integration test results</title>
     <link rel="stylesheet" href="${resources}/css/bootstrap.min.css">
@@ -45,6 +44,16 @@
     <script type="text/javascript">
         angular.module('testrunner', [])
                 .controller('tests', function($scope,$http) {
+                    if ("Notification" in window) {
+                        Notification.requestPermission();
+                    }
+                    var notify = function (title, message) {
+                        if ("Notification" in window) {
+                            var n = new Notification(title, {title, body: message});
+                            setTimeout(n.close.bind(n), 5000);
+                        }
+                    };
+
 					$scope.testFilter = {};
                     $http.get('/alfresco/service/testrunner/tests').success(function(tests) {
                         $scope.tests = tests;
@@ -57,9 +66,11 @@
                         $http.post('/alfresco/service/testrunner/run', $scope.testFilter).success(function(testResults) {
                             $scope.testResults = testResults;
                             $scope.runningTests = false;
+                            notify("testrunner", "tests completed");
                         }).error(function(error) {
 							$scope.error = error;
 							$scope.runningTests = false;
+                            notify("testrunner", "test execution failure");
 						});
                     };
                 })
