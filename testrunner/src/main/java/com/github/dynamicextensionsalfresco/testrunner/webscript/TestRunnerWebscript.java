@@ -2,9 +2,12 @@ package com.github.dynamicextensionsalfresco.testrunner.webscript;
 
 import com.github.dynamicextensionsalfresco.testrunner.BundleTest;
 import com.github.dynamicextensionsalfresco.testrunner.TestScanner;
-import com.github.dynamicextensionsalfresco.webscripts.annotations.*;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.HttpMethod;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.Transaction;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.TransactionType;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.Uri;
+import com.github.dynamicextensionsalfresco.webscripts.annotations.WebScript;
 import com.google.common.collect.ImmutableMap;
-import org.eclipse.gemini.blueprint.context.BundleContextAware;
 import org.json.JSONObject;
 import org.json.JSONWriter;
 import org.junit.runner.Description;
@@ -32,13 +35,14 @@ import java.util.Set;
 @Component
 @WebScript(families = "testrunner", defaultFormat = "json")
 @Transaction(TransactionType.NONE)
-public class TestRunnerWebscript implements BundleContextAware {
+public class TestRunnerWebscript {
   private final static Logger logger = LoggerFactory.getLogger(TestRunnerWebscript.class);
 
   @Autowired
   TestScanner testFinder;
 
-  private BundleContext bundleContext;
+  @Autowired
+  BundleContext bundleContext;
 
   @Uri(value = "/testrunner/", defaultFormat = "html")
   public Map<String,Object> index(WebScriptResponse response) {
@@ -148,10 +152,4 @@ public class TestRunnerWebscript implements BundleContextAware {
     }
     jr.endArray();
   }
-
-  @Override
-  public void setBundleContext(BundleContext bundleContext) {
-    this.bundleContext = bundleContext;
-  }
-
 }

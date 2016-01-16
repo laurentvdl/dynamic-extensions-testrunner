@@ -1,5 +1,3 @@
-import com.github.dynamicextensionsalfresco.gradle.tasks.InstallBundle
-
 apply plugin: 'java'
 apply plugin: 'osgi'
 apply plugin: 'alfresco-dynamic-extension'
@@ -8,12 +6,11 @@ apply plugin: "maven-publish"
 project.ext.springVersion = '3.0.5.RELEASE'
 
 group = 'com.github.dynamicextensionsalfresco'
-version = '1.1.0'
 
 configurations {
-    bundle
+    embedded
     compile {
-        extendsFrom bundle
+        extendsFrom embedded
     }
 }
 
@@ -28,7 +25,7 @@ dependencies {
     compile 'com.google.collections:google-collections:1.0'
     compile 'org.eclipse.gemini:org.eclipse.gemini.blueprint.core:1.0.2.RELEASE'
 
-    compile "junit:junit:4.10"
+    embedded "junit:junit:4.10"
 }
 
 task sourceJar(type: Jar) {
@@ -56,12 +53,15 @@ publishing {
     }
 }
 
-task installDependencies(type: InstallBundle) {
-  configuration = configurations.bundle
-}
-
 jar {
+    from(configurations.embedded) {
+        into('lib')
+    }
     manifest {
         instruction 'Bundle-Description', 'Integration testrunner extension'
+        instruction 'Bundle-DocURL', 'https://github.com/laurentvdl/dynamic-extensions-testrunner'
+        instruction 'Import-Package', '!org.junit.*,*'
+        instruction 'Export-Package', 'junit.framework,org.junit,org.junit.runner,*'
+        instruction 'Bundle-Classpath', ".,${configurations.embedded.files.collect({'lib/' + it.name}).join(',')}"
     }
 }

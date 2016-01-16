@@ -47,15 +47,17 @@
                     if ("Notification" in window) {
                         Notification.requestPermission();
                     }
-                    var notify = function (title, message) {
-                        if ("Notification" in window) {
-                            var n = new Notification(title, {title, body: message});
+                    var notify = function (message) {
+                        if ("Notification" in window && Notification.permission === 'granted') {
+                            var n = new Notification("testrunner", {
+                                body: message
+                            });
                             setTimeout(n.close.bind(n), 5000);
                         }
                     };
 
 					$scope.testFilter = {};
-                    $http.get('/alfresco/service/testrunner/tests').success(function(tests) {
+                    $http.get('${url.serviceContext}/testrunner/tests').success(function(tests) {
                         $scope.tests = tests;
                     });
                     $scope.runTests = function() {
@@ -63,15 +65,15 @@
                         $scope.testResults = null;
                         $scope.error = null;
 
-                        $http.post('/alfresco/service/testrunner/run', $scope.testFilter).success(function(testResults) {
+                        $http.post('${url.serviceContext}/testrunner/run', $scope.testFilter).success(function(testResults) {
                             $scope.testResults = testResults;
                             $scope.runningTests = false;
-                            notify("testrunner", "tests completed");
+                            notify("tests completed");
                         }).error(function(error) {
 							$scope.error = error;
 							$scope.runningTests = false;
-                            notify("testrunner", "test execution failure");
-						});
+                            notify("test execution failure");
+                        });
                     };
                 })
                 .filter('checkmark', function() {

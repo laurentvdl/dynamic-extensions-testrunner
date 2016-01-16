@@ -20,7 +20,13 @@ public class ResolverTest {
 
   @Test
   public void testGetViaResolver() {
+    final TestRunnerWebscript webscript = serviceResolver.getService("com.github.dynamicextensionsalfresco.testrunner", TestRunnerWebscript.class);
+    Assert.assertNotNull("this should not fail", webscript);
+  }
+
+  @Test
+  public void testIncorrectGetViaResolver() {
     final TestRunnerWebscript webscript = serviceResolver.getService("dynamic-extensions.testrunner", TestRunnerWebscript.class);
-    Assert.assertNotNull("test dependency not found", webscript);
+    Assert.assertNotNull("this will fail", webscript);
   }
 }

@@ -18,7 +18,7 @@ public class SelfTestComponent {
 
   @Test
   public void testAutowiring() {
-    final TestRunnerWebscript webscript = serviceResolver.getService("dynamic-extensions.testrunner", TestRunnerWebscript.class);
+    final TestRunnerWebscript webscript = serviceResolver.getService("<symbolic bundle name>", TestRunnerWebscript.class);
     Assert.assertNotNull("test dependency not found", webscript);
   }
 }
@@ -34,7 +34,3 @@ then you can @Autowired that service from your tests.
 Notes
 =====
 * the TestRunner-Target approach was removed as it was too obtrusive
-
-TODO
-====
-* integrate test execution as a gradle task
